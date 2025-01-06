@@ -71,13 +71,21 @@
             }
             .btn-sm {
                 width: 100%;
+                margin: 5px 0;
             }
         }
 
-        /* Ensuring better spacing and readability */
-        .crypto-list {
-            margin-top: 20px;
+        /* Custom button styling for alignment */
+        .crypto-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;  /* Adds some spacing between buttons */
         }
+
+        .crypto-actions .btn-sm {
+            width: auto;  /* Ensures buttons have their default width */
+        }
+
     </style>
 </head>
 <body>
@@ -153,9 +161,9 @@
                             <div class="col-12 col-sm-2 text-center">
                                 <span class="crypto-rate ${rate >= 0 ? 'positive' : 'negative'}">${rate.toFixed(2)}%</span>
                             </div>
-                            <div class="col-12 col-sm-2 text-center">
-                                <a href="${cryptoPageUrl}" class="btn btn-primary btn-sm">Sell</a>
-                                <a href="${cryptoPageUrl}" class="btn btn-success btn-sm mt-2">Buy</a>
+                            <div class="col-12 col-sm-2 text-center crypto-actions">
+                                <a href="${cryptoPageUrl}" class="btn btn-primary btn-sm">Buy Now</a>
+                                <a href="${cryptoPageUrl}" class="btn btn-success btn-sm">Invest</a>
                             </div>
                         `;
                         cryptoList.appendChild(row);
@@ -185,4 +193,3 @@
     </script>
 </body>
 </html>
-
