@@ -50,11 +50,33 @@
             color: red;
         }
 
-        /* Hide crypto name on small screens */
+        /* Mobile responsiveness */
         @media (max-width: 767px) {
             .crypto-name {
-                display: none;
+                display: none; /* Hide crypto name on small screens */
             }
+            .crypto-rate {
+                font-size: 14px;
+            }
+            .crypto-row {
+                flex-direction: column; /* Stack elements on small screens */
+                text-align: center;
+                padding: 15px;
+            }
+            .crypto-logo {
+                margin-bottom: 10px;
+            }
+            .crypto-details {
+                margin-bottom: 10px;
+            }
+            .btn-sm {
+                width: 100%;
+            }
+        }
+
+        /* Ensuring better spacing and readability */
+        .crypto-list {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -80,7 +102,7 @@
 
     <div class="container mt-5">
         <h1 class="text-center mb-4">Top Cryptocurrencies</h1>
-        <div id="crypto-list" class="row"></div>
+        <div id="crypto-list" class="row crypto-list"></div>
     </div>
 
     <!-- Footer -->
@@ -98,8 +120,8 @@
                     params: {
                         vs_currency: 'usd',
                         order: 'market_cap_desc',
-                        per_page: 100,  // Afficher 100 cryptos
-                        page: 5,  // Modifier si nécessaire pour d'autres pages
+                        per_page: 500,  // Afficher 500 cryptos
+                        page: 1,
                         sparkline: false
                     }
                 });
@@ -116,22 +138,22 @@
                         const cryptoPageUrl = `${name.toLowerCase()}.html`; // Exemple : "bitcoin.html", "ethereum.html"
 
                         const row = document.createElement('div');
-                        row.className = 'crypto-row d-flex align-items-center';
+                        row.className = 'crypto-row d-flex flex-column flex-sm-row align-items-center';
 
                         row.innerHTML = `
-                            <div class="col-1">
+                            <div class="col-12 col-sm-2 text-center">
                                 <img src="${logoUrl}" alt="${name} logo" class="crypto-logo" onerror="this.src='https://via.placeholder.com/40?text=?';">
                             </div>
-                            <div class="col-3 crypto-name">
+                            <div class="col-12 col-sm-3 text-center crypto-name">
                                 <strong>${name} (${symbol.toUpperCase()})</strong>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-sm-3 text-center">
                                 <span>$${price.toFixed(2)}</span>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-sm-2 text-center">
                                 <span class="crypto-rate ${rate >= 0 ? 'positive' : 'negative'}">${rate.toFixed(2)}%</span>
                             </div>
-                            <div class="col-2">
+                            <div class="col-12 col-sm-2 text-center">
                                 <a href="${cryptoPageUrl}" class="btn btn-primary btn-sm">Acheter</a>
                             </div>
                         `;
