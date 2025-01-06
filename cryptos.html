@@ -99,8 +99,8 @@
                     params: {
                         vs_currency: 'usd',
                         order: 'market_cap_desc',
-                        per_page: 300,  // Afficher 100 cryptos au lieu de 30
-                        page: 2,  // Modifier si nécessaire pour d'autres pages
+                        per_page: 100,  // Afficher 100 cryptos au lieu de 30
+                        page: 1,  // Modifier si nécessaire pour d'autres pages
                         sparkline: false
                     }
                 });
@@ -129,14 +129,14 @@
                             <span class="crypto-rate ${rate >= 0 ? 'positive' : 'negative'}">${rate.toFixed(2)}%</span>
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-primary btn-sm">Acheter</button>
+                            <a href="nom_crypto.html?crypto=${name.toLowerCase()}" class="btn btn-primary btn-sm">Acheter</a>
                         </div>
                     `;
 
                     cryptoList.appendChild(row);
                 });
 
-                // Search functionality
+                // Fonction de recherche
                 const searchForm = document.getElementById('search-form');
                 searchForm.addEventListener('submit', (event) => {
                     event.preventDefault();
@@ -155,7 +155,7 @@
                                 <img src="${logoUrl}" alt="${name} logo" class="crypto-logo" onerror="this.src='https://via.placeholder.com/40?text=?';">
                             </div>
                             <div class="col-3 crypto-name">
-                                <strong>(${symbol.toUpperCase()})</strong>
+                                <strong>${name} (${symbol.toUpperCase()})</strong>
                             </div>
                             <div class="col-3">
                                 <span>$${price.toFixed(2)}</span>
@@ -164,7 +164,7 @@
                                 <span class="crypto-rate ${rate >= 0 ? 'positive' : 'negative'}">${rate.toFixed(2)}%</span>
                             </div>
                             <div class="col-2">
-                                <button class="btn btn-primary btn-sm">buy</button>
+                                <a href="nom_crypto.html?crypto=${name.toLowerCase()}" class="btn btn-primary btn-sm">Acheter</a>
                             </div>
                         `;
 
