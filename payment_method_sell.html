@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #fce4ec, #f1f8e9);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-header {
+            background: #bd6c15;
+            color: white;
+            font-size: 1.6rem;
+            text-align: center;
+            padding: 20px;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .crypto-logo {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+
+        .crypto-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .crypto-details div {
+            margin-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        .form-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .helper-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .btn-confirm {
+            background: #4caf50;
+            color: white;
+            font-size: 1.1rem;
+            padding: 12px 30px;
+            border-radius: 30px;
+            width: 100%;
+            transition: background 0.3s ease;
+        }
+
+        .btn-confirm:hover {
+            background: #388e3c;
+        }
+
+        .qr-code-container {
+            margin-top: 30px;
+            text-align: center;
+            margin-bottom: 30px; /* Ajoute un espacement entre le QR Code et le bouton */
+        }
+
+        .qr-code-container img {
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .important-note {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-top: 20px;
+        }
+
+        .copy-btn {
+            background: #007bff;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+
+        .copy-feedback {
+            font-size: 1rem;
+            color: #28a745;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .crypto-details {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card-header {
+                font-size: 1.4rem;
+                padding: 15px;
+            }
+
+            .btn-confirm {
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+            .copy-btn {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Complete Your Payment
+            </div>
+            <div class="card-body">
+                <p class="text-center">You are selling <strong id="crypto-name">Crypto</strong>.</p>
+                <div class="crypto-details">
+                    <img id="crypto-logo" class="crypto-logo" src="" alt="Crypto Logo">
+                    <div>
+                        <p><strong>Amount to Sell:</strong> <span id="crypto-amount">0</span> <span id="crypto-symbol">Crypto</span></p>
+                        <p><strong>Amount in USD:</strong> $<span id="usd-amount">0</span></p>
+                    </div>
+                </div>
+
+                <!-- Wallet Address to send payment to -->
+                <div class="form-group">
+                    <label for="receive-wallet-address" class="form-label">Wallet Address to Send Payment</label>
+                    <input type="text" id="receive-wallet-address" class="form-control" placeholder="Wallet address to send payment" readonly required>
+                    <p class="helper-text">Please transfer the specified amount of cryptocurrency to this address.</p>
+                    <!-- Copy Button -->
+                    <button class="copy-btn" id="copy-btn">Copy Address</button>
+                    <p class="copy-feedback" id="copy-feedback">Address copied to clipboard!</p>
+                </div>
+
+                <!-- Transfer Instructions -->
+                <p class="important-note">Important: Please ensure that you send the correct amount of <span id="crypto-symbol">Crypto</span> to the address below.</p>
+
+                <!-- QR Code for the address -->
+                <div class="qr-code-container">
+                    <h5>Scan QR Code to Pay</h5>
+                    <img id="qrcode" alt="Crypto QR Code" />
+                </div>
+
+                <div class="text-center">
+                    <button class="btn-confirm" id="confirm-payment-btn">Confirm Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Récupérer les paramètres d'URL
+        const params = new URLSearchParams(window.location.search);
+        const cryptoName = params.get('cryptoName');
+        const cryptoSymbol = params.get('cryptoSymbol');
+        const amountUSD = parseFloat(params.get('amountUSD')) || 0;
+        const cryptoAmount = parseFloat(params.get('cryptoAmount')) || 0;
+        const walletAddress = params.get('walletAddress');
+    
+        // Définir l'adresse du portefeuille pour chaque crypto
+        const receiveWalletAddresses = {
+            USDT: '0xYourTetherWalletAddressHere',
+            BTC: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+            ETH: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0',
+            BNB: 'bnb1yourbinancewalletaddresshere',
+            XRP: 'rYourRippleWalletAddressHere'
+        };
+    
+        // Mettre à jour les détails de la crypto sur la page
+        document.getElementById('crypto-name').textContent = cryptoName || 'Crypto';
+        document.getElementById('crypto-symbol').textContent = cryptoSymbol || 'Crypto';
+        document.getElementById('usd-amount').textContent = amountUSD.toFixed(2);
+        document.getElementById('crypto-amount').textContent = cryptoAmount.toFixed(6);
+
+        // Définir l'URL du logo pour la crypto
+        const cryptoLogos = {
+            'Bitcoin': 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+            'Ethereum': 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+            'Litecoin': 'https://cryptologos.cc/logos/litecoin-ltc-logo.png',
+            'XRP': 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+            'USDT': 'https://cryptologos.cc/logos/tether-usdt-logo.png',
+            'BNB': 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png'
+            // Ajoutez d'autres cryptos si nécessaire
+        };
+
+        // Fonction pour charger l'URL du logo en fonction du nom de la crypto
+        function loadCryptoLogo(cryptoName) {
+            const logoUrl = cryptoLogos[cryptoName];
+            if (logoUrl) {
+                document.getElementById('crypto-logo').src = logoUrl;
+            } else {
+                console.error(`Logo non trouvé pour ${cryptoName}`);
+            }
+        }
+
+        // Charger le logo pour la crypto spécifiée dans l'URL
+        loadCryptoLogo(cryptoName);
+
+        // Définir l'adresse du portefeuille pour recevoir le paiement
+        const walletAddressValue = receiveWalletAddresses[cryptoSymbol] || 'Please select a valid cryptocurrency.';
+        document.getElementById('receive-wallet-address').value = walletAddressValue;
+    
+        // Générer le QR code pour l'adresse du portefeuille en utilisant l'API QRServer
+        const qrcodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(walletAddressValue)}`;
+        document.getElementById('qrcode').src = qrcodeUrl;
+    
+        // Gérer le bouton "Copier l'adresse"
+        const copyBtn = document.getElementById('copy-btn');
+        const copyFeedback = document.getElementById('copy-feedback');
+    
+        copyBtn.addEventListener('click', () => {
+            const addressField = document.getElementById('receive-wallet-address');
+            addressField.select();
+            document.execCommand('copy');
+            copyFeedback.style.display = 'block';
+            setTimeout(() => {
+                copyFeedback.style.display = 'none';
+            }, 2000);
+        });
+    
+        // Gérer le clic sur le bouton "Confirm Payment"
+        document.getElementById('confirm-payment-btn').addEventListener('click', () => {
+            alert("Payment confirmed. Please send the cryptocurrency to the provided address.");
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+

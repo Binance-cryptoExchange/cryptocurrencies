@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy & Sell Tron (TRX)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f3f4f7, #e8f5e9);
+            color: #212529;
+            padding-top: 20px;
+        }
+
+        .header {
+            background: #f6f2f2;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #df0c2f;
+        }
+
+        .crypto-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-up {
+            color: #28a745;
+        }
+
+        .price-down {
+            color: #dc3545;
+        }
+
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            width: 48%;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            margin: 10px 1%;
+        }
+
+        .btn-buy {
+            background: #0ca013;
+            color: #fff;
+        }
+
+        .btn-sell {
+            background: #ffc107;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://cryptologos.cc/logos/tron-trx-logo.png" alt="TRX Logo" width="40" class="me-2">
+                <span>Tron (TRX)</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Crypto Info Section -->
+    <section class="crypto-info container">
+        <img src="https://cryptologos.cc/logos/tron-trx-logo.png" alt="TRX Logo" width="100">
+        <h2>Tron (TRX)</h2>
+        <p>Price: $<span id="trx-price" class="price-neutral">0.00</span></p>
+        <p>24h Change: <span id="trx-change" class="price-neutral">0.00%</span></p>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section container">
+        <h3 class="text-center">Transaction Details</h3>
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn-action btn-buy" id="btn-buy">
+                <i class="bi bi-arrow-down-circle me-2"></i>Buy TRX
+            </button>
+            <button class="btn-action btn-sell" id="btn-sell">
+                <i class="bi bi-arrow-up-circle me-2"></i>Sell TRX
+            </button>
+        </div>
+
+        <form id="transaction-form">
+            <div class="mb-3">
+                <label for="usd-amount" class="form-label">Amount in USD</label>
+                <input type="number" id="usd-amount" class="form-control" placeholder="Enter amount in USD" disabled>
+                <small class="text-muted">For buying, enter the amount you want to spend in USD.</small>
+            </div>
+            <div class="mb-3">
+                <label for="trx-amount" class="form-label">Amount in TRX</label>
+                <input type="number" id="trx-amount" class="form-control" placeholder="Enter amount in TRX" disabled>
+                <small class="text-muted">For selling, enter the amount you want to sell in TRX.</small>
+            </div>
+            <div class="mb-3">
+                <label for="calculated-value" class="form-label">Calculated Value</label>
+                <input type="text" id="calculated-value" class="form-control" readonly>
+                <small class="text-muted">The equivalent value will be calculated dynamically.</small>
+            </div>
+            <div class="d-grid">
+                <button type="submit" id="btn-submit" class="btn btn-primary" disabled>Confirm Transaction</button>
+            </div>
+        </form>
+    </section>
+
+    <script>
+        const usdAmount = document.getElementById('usd-amount');
+        const trxAmount = document.getElementById('trx-amount');
+        const calculatedValue = document.getElementById('calculated-value');
+        const submitButton = document.getElementById('btn-submit');
+        const buyButton = document.getElementById('btn-buy');
+        const sellButton = document.getElementById('btn-sell');
+        const trxPriceElement = document.getElementById('trx-price');
+        const trxChangeElement = document.getElementById('trx-change');
+        let trxPrice = 0;
+
+        // Fetch TRON data from CoinGecko API (or any other API)
+        async function fetchTRXData() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tron&vs_currencies=usd&include_24hr_change=true');
+                const data = await response.json();
+                trxPrice = data['tron'].usd;
+                const change24h = data['tron'].usd_24h_change.toFixed(2);
+
+                trxPriceElement.textContent = trxPrice.toFixed(8);
+                trxChangeElement.textContent = `${change24h}%`;
+
+                if (change24h > 0) {
+                    trxPriceElement.className = 'price-up';
+                    trxChangeElement.className = 'price-up';
+                } else if (change24h < 0) {
+                    trxPriceElement.className = 'price-down';
+                    trxChangeElement.className = 'price-down';
+                } else {
+                    trxPriceElement.className = '';
+                    trxChangeElement.className = '';
+                }
+            } catch (error) {
+                console.error('Error fetching TRON data:', error);
+            }
+        }
+
+        // Switch transaction mode
+        function switchMode(mode) {
+            if (mode === 'buy') {
+                usdAmount.disabled = false;
+                trxAmount.disabled = true;
+                trxAmount.value = '';
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+                usdAmount.focus();
+            } else if (mode === 'sell') {
+                trxAmount.disabled = false;
+                usdAmount.disabled = true;
+                usdAmount.value = '';
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+                trxAmount.focus();
+            }
+        }
+
+        // Calculate dynamically
+        function calculateValue() {
+            if (!usdAmount.disabled && usdAmount.value) {
+                const usdValue = parseFloat(usdAmount.value);
+                if (usdValue > 0) {
+                    calculatedValue.value = `${(usdValue / trxPrice).toFixed(0)} TRX`;
+                    submitButton.disabled = false;
+                } else {
+                    calculatedValue.value = '';
+                    submitButton.disabled = true;
+                }
+            } else if (!trxAmount.disabled && trxAmount.value) {
+                const trxValue = parseFloat(trxAmount.value);
+                if (trxValue > 0) {
+                    calculatedValue.value = `${(trxValue * trxPrice).toFixed(2)} USD`;
+                    submitButton.disabled = false;
+                } else {
+                    calculatedValue.value = '';
+                    submitButton.disabled = true;
+                }
+            } else {
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+            }
+        }
+
+        // Fonction pour rediriger en passant les données dans l'URL
+       function redirectToPaymentPage(mode) {
+        const transactionData = {
+        cryptoName: 'Tron (TRX)',
+        cryptoPrice: trxPrice, // Assurez-vous que trxPrice est défini avant d'utiliser cette variable
+        cryptoLogo: 'https://cryptologos.cc/logos/tron-trx-logo.png',
+        transactionMode: mode,
+        amount: mode === 'buy' ? usdAmount.value : trxAmount.value
+    };
+
+    // Créez une chaîne de paramètres à partir de l'objet transactionData
+    const queryString = new URLSearchParams(transactionData).toString();
+
+    // Effectuez la redirection en ajoutant la chaîne de requête à l'URL de destination
+    window.location.href = mode === 'buy' ? `payment_buy.html?${queryString}` : `payment_sell.html?${queryString}`;
+}
+
+
+        // Event listeners
+        buyButton.addEventListener('click', () => switchMode('buy'));
+        sellButton.addEventListener('click', () => switchMode('sell'));
+        usdAmount.addEventListener('input', calculateValue);
+        trxAmount.addEventListener('input', calculateValue);
+        submitButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const mode = usdAmount.disabled ? 'sell' : 'buy';
+            redirectToPaymentPage(mode);
+        });
+
+        // Fetch TRON data on page load
+        fetchTRXData();
+        setInterval(fetchTRXData, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy & Sell Binance Coin (BNB)</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f3f4f7, #e8f5e9);
+            color: #212529;
+            padding-top: 20px;
+        }
+
+        .header {
+            background: #f6f2f2;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #df9d1b;
+        }
+
+        .crypto-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-up {
+            color: #28a745;
+        }
+
+        .price-down {
+            color: #dc3545;
+        }
+
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            width: 48%;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            margin: 10px 1%;
+        }
+
+        .btn-buy {
+            background: #0ec104;
+            color: #fff;
+        }
+
+        .btn-sell {
+            background: #ffc107;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="BNB Logo" width="40" class="me-2">
+                <span>Binance Coin (BNB)</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Crypto Info Section -->
+    <section class="crypto-info container">
+        <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png" alt="BNB Logo" width="100">
+        <h2>Binance Coin (BNB)</h2>
+        <p>Price: $<span id="bnb-price" class="price-neutral">0.00</span></p>
+        <p>24h Change: <span id="bnb-change" class="price-neutral">0.00%</span></p>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section container">
+        <h3 class="text-center">Transaction Details</h3>
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn-action btn-buy" id="btn-buy">
+                <i class="bi bi-arrow-down-circle me-2"></i>Buy BNB
+            </button>
+            <button class="btn-action btn-sell" id="btn-sell">
+                <i class="bi bi-arrow-up-circle me-2"></i>Sell BNB
+            </button>
+        </div>
+
+        <form id="transaction-form">
+            <div class="mb-3">
+                <label for="usd-amount" class="form-label">Amount in USD</label>
+                <input type="number" id="usd-amount" class="form-control" placeholder="Enter amount in USD" disabled>
+                <small class="text-muted">For buying, enter the amount you want to spend in USD.</small>
+            </div>
+            <div class="mb-3">
+                <label for="bnb-amount" class="form-label">Amount in BNB</label>
+                <input type="number" id="bnb-amount" class="form-control" placeholder="Enter amount in BNB" disabled>
+                <small class="text-muted">For selling, enter the amount you want to sell in BNB.</small>
+            </div>
+            <div class="mb-3">
+                <label for="calculated-value" class="form-label">Calculated Value</label>
+                <input type="text" id="calculated-value" class="form-control" readonly>
+                <small class="text-muted">The equivalent value will be calculated dynamically.</small>
+            </div>
+            <div class="d-grid">
+                <button type="submit" id="btn-submit" class="btn btn-primary" disabled>Confirm Transaction</button>
+            </div>
+        </form>
+    </section>
+
+    <script>
+        const usdAmount = document.getElementById('usd-amount');
+        const bnbAmount = document.getElementById('bnb-amount');
+        const calculatedValue = document.getElementById('calculated-value');
+        const submitButton = document.getElementById('btn-submit');
+        const buyButton = document.getElementById('btn-buy');
+        const sellButton = document.getElementById('btn-sell');
+        const bnbPriceElement = document.getElementById('bnb-price');
+        const bnbChangeElement = document.getElementById('bnb-change');
+        let bnbPrice = 0;
+
+        // Fetch Binance Coin (BNB) data from CoinGecko API (or any other API)
+        async function fetchBNBData() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd&include_24hr_change=true');
+                const data = await response.json();
+                bnbPrice = data['binancecoin'].usd;
+                const change24h = data['binancecoin'].usd_24h_change.toFixed(2);
+
+                bnbPriceElement.textContent = bnbPrice.toFixed(2);
+                bnbChangeElement.textContent = `${change24h}%`;
+
+                if (change24h > 0) {
+                    bnbPriceElement.className = 'price-up';
+                    bnbChangeElement.className = 'price-up';
+                } else if (change24h < 0) {
+                    bnbPriceElement.className = 'price-down';
+                    bnbChangeElement.className = 'price-down';
+                } else {
+                    bnbPriceElement.className = '';
+                    bnbChangeElement.className = '';
+                }
+            } catch (error) {
+                console.error('Error fetching Binance Coin data:', error);
+            }
+        }
+
+        // Switch transaction mode
+        function switchMode(mode) {
+            if (mode === 'buy') {
+                usdAmount.disabled = false;
+                bnbAmount.disabled = true;
+                bnbAmount.value = '';
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+                usdAmount.focus();
+            } else if (mode === 'sell') {
+                bnbAmount.disabled = false;
+                usdAmount.disabled = true;
+                usdAmount.value = '';
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+                bnbAmount.focus();
+            }
+        }
+
+        // Calculate dynamically
+        function calculateValue() {
+            if (!usdAmount.disabled && usdAmount.value) {
+                const usdValue = parseFloat(usdAmount.value);
+                if (usdValue > 0) {
+                    calculatedValue.value = `${(usdValue / bnbPrice).toFixed(2)} BNB`;
+                    submitButton.disabled = false;
+                } else {
+                    calculatedValue.value = '';
+                    submitButton.disabled = true;
+                }
+            } else if (!bnbAmount.disabled && bnbAmount.value) {
+                const bnbValue = parseFloat(bnbAmount.value);
+                if (bnbValue > 0) {
+                    calculatedValue.value = `${(bnbValue * bnbPrice).toFixed(2)} USD`;
+                    submitButton.disabled = false;
+                } else {
+                    calculatedValue.value = '';
+                    submitButton.disabled = true;
+                }
+            } else {
+                calculatedValue.value = '';
+                submitButton.disabled = true;
+            }
+        }
+
+        // Function to redirect with transaction data in the URL
+        function redirectToPaymentPage(mode) {
+            const transactionData = {
+                cryptoName: 'Binance Coin (BNB)',
+                cryptoPrice: bnbPrice,
+                cryptoLogo: 'https://cryptologos.cc/logos/binance-coin-bnb-logo.png',
+                transactionMode: mode,
+                amount: mode === 'buy' ? usdAmount.value : bnbAmount.value
+            };
+
+            const queryString = new URLSearchParams(transactionData).toString();
+            window.location.href = mode === 'buy' ? `payment_buy.html?${queryString}` : `payment_sell.html?${queryString}`;
+        }
+
+        // Event listeners
+        buyButton.addEventListener('click', () => switchMode('buy'));
+        sellButton.addEventListener('click', () => switchMode('sell'));
+        usdAmount.addEventListener('input', calculateValue);
+        bnbAmount.addEventListener('input', calculateValue);
+        submitButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const mode = usdAmount.disabled ? 'sell' : 'buy';
+            redirectToPaymentPage(mode);
+        });
+
+        // Fetch Binance Coin data on page load
+        fetchBNBData();
+        setInterval(fetchBNBData, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html>
+
+
+
+

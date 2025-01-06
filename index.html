@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance-Crypto Exchange</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="chrome" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="adroid-chrome" sizes="512x512" href="android-chrome-512x512.png"
+    <link rel="icon"  sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon"  sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c8c7cd;
+            color: #212529;
+        }
+        .navbar {
+            background-color: #050505;
+            box-shadow: 0px 4px 6px rgba(37, 33, 3, 0.763);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            color: #c08e19;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #c69a21;
+            font-size: 1rem;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #0056b3;
+        }
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, #f8fafb, #0a0909), url('https://via.placeholder.com/1500') no-repeat center center;
+            background-size: cover;
+            text-align: center;
+            color: #212529;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            animation: fadeIn 2s ease-in-out;
+        }
+        .hero p {
+            animation: fadeIn 3s ease-in-out;
+        }
+        .btn-primary, .btn-outline-dark {
+            transition: all 0.3s ease;
+            
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background-color: #094a6b;
+        }
+        .btn-outline-dark:hover {
+            transform: scale(1.05);
+        }
+        /* Features Section */
+        .features .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .features .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        .features i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+        /* Pricing Section */
+        #pricing .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #pricing .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        #pricing h4 {
+            font-size: 2rem;
+            color: #0056b3;
+        }
+        footer {
+            background-color: #161616;
+            color: #ffffff;
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #f8f9fa;
+        }
+        footer a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: #f8f9fa;
+            text-decoration: underline;
+        }
+        footer form input {
+            border-radius: 0;
+            border: 1px solid #adb5bd;
+        }
+        footer form button {
+            border-radius: 0;
+            background-color: #0056b3;
+            color: white;
+        }
+        footer form button:hover {
+            background-color: #003d82;
+        }
+        footer hr {
+            border-color: #495057;
+        }
+
+        
+        
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        #crypto-news {
+            background-color: #f8f9fa;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        #crypto-news h2 {
+            font-size: 2.5rem;
+            color: #0056b3;
+            margin-bottom: 40px;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        .card-text {
+            font-size: 1rem;
+            color: #6c757d;
+        }
+        .card-body a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .card-body a:hover {
+            text-decoration: underline;
+        }
+        #crypto-list {
+            background-color: #f8f9fa;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        #crypto-list h2 {
+            font-size: 2.5rem;
+            color: #0056b3;
+            margin-bottom: 40px;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .crypto-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .crypto-logo {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .crypto-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .crypto-price {
+            font-size: 1.2rem;
+            color: #28a745;
+            font-weight: bold;
+            transition: color 0.5s ease;
+        }
+
+        .crypto-progress {
+            font-size: 1rem;
+            font-weight: 600;
+            transition: color 0.5s ease, transform 0.3s ease;
+        }
+
+        .crypto-progress.positive {
+            color: #28a745;
+            transform: scale(1.1);
+        }
+
+        .crypto-progress.negative {
+            color: #dc3545;
+            transform: scale(1.1);
+        }
+
+        .crypto-progress.positive.animate {
+            animation: progressPositive 1s ease-in-out;
+        }
+
+        .crypto-progress.negative.animate {
+            animation: progressNegative 1s ease-in-out;
+        }
+
+        .crypto-button {
+            margin-top: 10px;
+        }
+
+        @keyframes progressPositive {
+            0% {
+                transform: scale(1);
+                color: #28a745;
+            }
+            50% {
+                transform: scale(1.3);
+                color: #218838;
+            }
+            100% {
+                transform: scale(1);
+                color: #28a745;
+            }
+        }
+
+        @keyframes progressNegative {
+            0% {
+                transform: scale(1);
+                color: #dc3545;
+            }
+            50% {
+                transform: scale(1.3);
+                color: #c82333;
+            }
+            100% {
+                transform: scale(1);
+                color: #dc3545;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Binance_Logo.png" alt="Binance Logo" width="40" class="me-2">
+                <span>BINANCE</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="btn btn-primary text-white nav-link" href="signup.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-3">Welcome to Binance Crypto Exchange</h1>
+            <p class="lead">The best platform for seamless cryptocurrency trading.</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="cryptos.html" class="btn btn-primary btn-lg">buy Crypto</a>
+                <a href="cryptos.html" class="btn btn-outline-dark btn-lg">Exchange Crypto</a>
+            </div>
+        </div>
+    </section>
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container text-center">
+            <h2 class="section-title mb-4">Why Choose Us?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="bi bi-lightning-fill fs-1"></i>
+                    <h4>Lightning Fast Transactions</h4>
+                    <p>Our advanced infrastructure ensures instant trades without delays.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-shield-lock-fill fs-1"></i>
+                    <h4>State-of-the-art Security</h4>
+                    <p>Your assets are protected with top-tier encryption and multi-layer security.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-globe2 fs-1"></i>
+                    <h4>Global Access</h4>
+                    <p>Trade from anywhere in the world with our user-friendly platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Section Cryptos Populaires -->
+<section id="crypto-list" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 text-primary">Popular Cryptocurrencies</h2>
+        
+        <div class="list-group" id="crypto-list-group">
+            <!-- Cryptos will be displayed here dynamically -->
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="#" class="btn btn-outline-primary">View All 350+ Coins</a>
+        </div>
+    </div>
+</section>
+
+    
+
+    
+
+    
+
+    <!-- Section Discussion & Actualités -->
+<section id="crypto-news" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4 text-primary">Cryptocurrency Market Insights & Discussions</h2>
+        
+        <!-- Description longue -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <div class="card shadow-lg border-0 rounded-3">
+                    <div class="card-body">
+                        <h3 class="card-title text-dark">The Future of Cryptocurrency Transactions</h3>
+                        <p class="card-text">
+                            Cryptocurrency is no longer a niche technology reserved for a select few tech enthusiasts. Over the past decade, it has transformed into a global financial ecosystem that offers new opportunities and challenges. As adoption grows, questions about its sustainability, volatility, and regulation continue to emerge. 
+                            <br><br>
+                            Digital currencies like Bitcoin, Ethereum, and emerging altcoins are increasingly becoming viable alternatives to traditional financial systems. But what does this mean for the future of global transactions? The decentralized nature of blockchain technology provides numerous advantages such as transparency, security, and low transaction costs. However, these benefits come with unique challenges—particularly regarding scalability, energy consumption, and regulatory oversight.
+                            <br><br>
+                            The future of cryptocurrency transactions hinges on technological advancements in blockchain infrastructure, improvements in transaction speed, and regulatory frameworks that allow both the innovation of digital assets and investor protection.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discussions récentes -->
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Bitcoin's Journey Towards Institutional Acceptance</h5>
+                        <p class="card-text">
+                            Over the past few years, institutional investors have begun to take cryptocurrency seriously, leading to the rise of products like Bitcoin ETFs and institutional-grade wallets. But the question remains: Can Bitcoin maintain its volatility while becoming a mainstream asset class?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Ethereum's Move to Proof of Stake: What's Next?</h5>
+                        <p class="card-text">
+                            With Ethereum's shift to Proof of Stake (PoS), the network aims to become more scalable and environmentally friendly. But how will this transition impact the overall Ethereum ecosystem, its value proposition, and DeFi protocols built on it?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">The Impact of DeFi on Traditional Financial Systems</h5>
+                        <p class="card-text">
+                            Decentralized Finance (DeFi) platforms are gaining traction as they offer an alternative to centralized banks and exchanges. But what are the risks associated with using DeFi platforms? Will they coexist with traditional systems or eventually disrupt them entirely?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">NFTs and Blockchain: The New Frontier of Digital Ownership</h5>
+                        <p class="card-text">
+                            NFTs (Non-Fungible Tokens) are transforming the way we view ownership in the digital world. From art to music and even real estate, NFTs are creating new markets and challenging traditional notions of intellectual property and copyright.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actualités sur les cryptomonnaies -->
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Bitcoin Price Predictions for 2025</h5>
+                        <p class="card-text">
+                            Bitcoin's price has fluctuated dramatically in recent months. Experts weigh in on where the price could go in 2025. <a href="https://www.coindesk.com/bitcoin-price-predictions" target="_blank">Read more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Ethereum Merge: Update on Transition to Proof of Stake</h5>
+                        <p class="card-text">
+                            The Ethereum blockchain is undergoing a major upgrade. Learn about the latest progress on the Ethereum Merge. <a href="https://www.theblock.co/ethereum-merge-update" target="_blank">Read more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">DeFi Market Growth and Risks</h5>
+                        <p class="card-text">
+                            Decentralized Finance is revolutionizing financial markets, but regulatory hurdles are still ahead. Read about the latest developments in DeFi. <a href="https://www.cnbc.com/defi-growth" target="_blank">Read more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card border-0 rounded-3 shadow-lg">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">The Impact of NFTs on Digital Art Markets</h5>
+                        <p class="card-text">
+                            Discover how NFTs are reshaping the world of digital art and their implications on copyright and ownership. <a href="https://www.bbc.com/nfts-impact" target="_blank">Read more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <!-- Section principale -->
+            <div class="row py-4">
+                <!-- À propos -->
+                <div class="col-md-3">
+                    <h5>About CryptoExchange</h5>
+                    <p>Binance is your one-stop platform for secure and seamless cryptocurrency trading, staking, and blockchain solutions.</p>
+                    <a href="#about" class="text-white">Learn more <i class="bi bi-arrow-right"></i></a>
+                </div>
+                <!-- Ressources -->
+                <div class="col-md-3">
+                    <h5>Resources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Blockchain Basics</a></li>
+                        <li><a href="#">Crypto Wallet Guide</a></li>
+                        <li><a href="#">Market Insights</a></li>
+                        <li><a href="#">DeFi Explained</a></li>
+                    </ul>
+                </div>
+                <!-- Produits et services -->
+                <div class="col-md-3">
+                    <h5>Our Services</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Buy & Sell Crypto</a></li>
+                        <li><a href="#">Crypto Staking</a></li>
+                        <li><a href="#">NFT Marketplace</a></li>
+                        <li><a href="#">API Solutions</a></li>
+                    </ul>
+                </div>
+                <!-- Suivez-nous -->
+                <div class="col-md-3">
+                    <h5>Stay Connected</h5>
+                    <p>Follow us on social media for the latest updates and news.</p>
+                    <div class="d-flex">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- Newsletter -->
+            <div class="row py-3">
+                <div class="col-md-8">
+                    <h5>Subscribe to Our Newsletter</h5>
+                    <p>Stay updated with the latest trends in crypto and blockchain.</p>
+                </div>
+                <div class="col-md-4">
+                    <form class="d-flex">
+                        <input type="email" class="form-control" placeholder="Enter your email" aria-label="Newsletter">
+                        <button class="btn btn-primary ms-2">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <hr class="text-white">
+            <!-- Bas de page -->
+            <div class="row text-center py-3">
+                <div class="col-md-6">
+                    <p>&copy; 2019 Binance CryptoExchange. All rights reserved.</p>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <a href="#" class="text-white">Terms of Service</a> | 
+                        <a href="#" class="text-white">Privacy Policy</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Fonction pour obtenir les données des cryptos populaires
+        async function fetchCryptoData() {
+            const cryptoIds = ['bitcoin', 'ethereum', 'binancecoin', 'ripple', 'solana', 'tron',  'dogecoin', 'tether', 'shiba', '']; // IDs des cryptos populaires
+            const apiUrl = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${cryptoIds.join(',')}&order=market_cap_desc&sparkline=false`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                displayCryptos(data);
+            } catch (error) {
+                console.error('Error fetching crypto data:', error);
+            }
+        }
+    
+        // Fonction pour afficher les cryptos
+        function displayCryptos(cryptos) {
+            const cryptoListGroup = document.getElementById('crypto-list-group');
+            cryptoListGroup.innerHTML = ''; // Clear any existing content
+            
+            // Itérer sur les cryptos et les afficher
+            cryptos.forEach(crypto => {
+                const listItem = document.createElement('div');
+                listItem.classList.add('list-group-item');
+                
+                const logoUrl = crypto.image; // URL de l'icône de la crypto
+    
+                // Création de la structure pour chaque crypto avec les informations demandées
+                listItem.innerHTML = `
+                    <div class="crypto-info">
+                        <img src="${logoUrl}" alt="${crypto.name} logo" class="crypto-logo">
+                        <span class="crypto-symbol">${crypto.symbol.toUpperCase()}</span>  
+                        
+                    </div>
+                    <div class="crypto-price">
+                        $${crypto.current_price.toFixed(2)}
+                    </div>
+                    <div class="crypto-progress ${crypto.price_change_percentage_24h < 0 ? 'negative' : 'positive'} ${crypto.price_change_percentage_24h !== 0 ? 'animate' : ''}">
+                        ${crypto.price_change_percentage_24h.toFixed(2)}%
+                    </div>
+                    <button class="btn btn-primary crypto-button" onclick="buyCrypto('${crypto.id}')">Buy</button>
+                `;
+                
+                cryptoListGroup.appendChild(listItem);
+            });
+        }
+    
+        // Fonction pour rediriger l'utilisateur vers la page d'achat de la crypto
+        function buyCrypto(cryptoId) {
+            // Redirige vers une page d'achat spécifique en fonction de l'ID de la crypto
+            const buyPageUrl = `${cryptoId}.html`; // Par exemple, buy-bitcoin.html pour Bitcoin
+            window.location.href = buyPageUrl;
+        }
+    
+        // Appel de la fonction pour récupérer les cryptos à charger au démarrage
+        fetchCryptoData();
+    
+        // Actualisation des prix toutes les 60 secondes
+        setInterval(fetchCryptoData, 60000);
+    </script>
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Other Sections (Features, Pricing, Footer) -->
+    <!-- Copiez les sections précédentes ici avec le design amélioré -->
+</body>
+</html>
+
