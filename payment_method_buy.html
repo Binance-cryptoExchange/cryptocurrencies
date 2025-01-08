@@ -118,7 +118,7 @@
         const amountUSD = parseFloat(params.get('amountUSD')) || 0;
         const cryptoPrice = parseFloat(params.get('cryptoPrice')) || 0;
         const cryptoAmount = parseFloat(params.get('cryptoAmount')) || 0;
-        const walletAddress = params.get('walletAddress');
+        
 
         // Debugging: Vérifier si les paramètres sont récupérés correctement
         console.log("cryptoName:", cryptoName);
@@ -128,13 +128,29 @@
         console.log("cryptoAmount:", cryptoAmount);
         console.log("walletAddress:", walletAddress);
 
+        // Définir l'adresse du portefeuille pour chaque crypto
+        const receiveWalletAddresses = {
+            BTC: 'bc1qsnywl4w4jmwn20w77dy8dpp90dwv7uxuv3dcrh', // Bitcoin Address
+            default: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0' // Default address for all other cryptos
+        };
+
+        // Définir l'adresse du portefeuille pour recevoir le paiement en fonction de la crypto
+        let walletAddressValue;
+        if (crypto1.toLowerCase() === 'bitcoin') {
+            walletAddressValue = receiveWalletAddresses.BTC; // Bitcoin Address
+        } else {
+            walletAddressValue = receiveWalletAddresses.default; // Default address for others
+        }
+        document.getElementById('receive-wallet-address').value = walletAddressValue;
+    
+
         
 
         // Mettre à jour les détails de la crypto sur la page
         document.getElementById('crypto-info').textContent = `You are buying ${cryptoAmount.toFixed(6)} ${cryptoName.toUpperCase()} for a total of $${amountUSD.toFixed(2)} USD.`;
 
         // Afficher l'adresse du portefeuille
-        document.getElementById('receive-wallet-address').value = walletAddress;
+        document.getElementById('receive-wallet-address').value = walletAddressValue;
 
         // Générer le QR code pour l'adresse du portefeuille en utilisant l'API QRServer
         const qrcodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(walletAddress)}`;
