@@ -128,12 +128,7 @@
         console.log("cryptoAmount:", cryptoAmount);
         console.log("walletAddress:", walletAddress);
 
-        // Vérification si les paramètres existent dans l'URL
-        if (!cryptoName || !cryptoSymbol || !amountUSD || !cryptoPrice || !cryptoAmount || !walletAddress) {
-            document.getElementById('crypto-info').textContent = "Missing necessary information in URL.";
-            console.error("Missing parameters in URL.");
-            return;  // Arrête l'exécution si des paramètres sont manquants
-        }
+        
 
         // Mettre à jour les détails de la crypto sur la page
         document.getElementById('crypto-info').textContent = `You are buying ${cryptoAmount.toFixed(6)} ${cryptoName.toUpperCase()} for a total of $${amountUSD.toFixed(2)} USD.`;
