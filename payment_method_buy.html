@@ -12,17 +12,19 @@
             background: linear-gradient(135deg, #2c3e50, #4ca1af);
             color: white;
             font-family: 'Arial', sans-serif;
-            height: 100vh; /* Fix height for the body */
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
         }
         .container {
             width: 100%;
             max-width: 700px;
             padding: 20px;
             margin-top: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         h1 {
             font-size: 2.5rem;
@@ -64,12 +66,12 @@
             padding: 20px;
             background-color: rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 250px; /* Set max width for the QR container */
+            max-width: 250px;
             margin-left: auto;
             margin-right: auto;
         }
         .qr-code-container img {
-            max-width: 100%; /* Make the image responsive */
+            max-width: 100%;
             height: auto;
             border-radius: 8px;
         }
@@ -89,25 +91,27 @@
 <body>
     <div class="container">
         <h1>Buy Crypto</h1>
-        <p id="crypto-info" class="text-center"></p>
-        <p id="send-address" class="text-center">Send your payment coins to the following address (only USDT or BNB ):</p>
-        
-        <!-- Address and Buttons will be dynamically inserted here -->
-        <div id="crypto-address-container" class="text-center">
-            <p id="crypto-address" class="crypto-address">
-                <span>Crypto Address:</span> 
-                <input type="text" id="receive-wallet-address" readonly class="form-control d-inline-block" style="width: 60%; margin-top: 10px;">
-            </p>
-            <!-- Copy Button -->
-            <button id="copy-btn" class="btn copy-btn">Copy Address</button>
-        </div>
+        <form>
+            <p id="crypto-info" class="text-center"></p>
+            <p id="send-address" class="text-center">Send your payment coins to the following address (only USDT or BNB):</p>
+            
+            <!-- Address and Buttons will be dynamically inserted here -->
+            <div id="crypto-address-container" class="text-center">
+                <p id="crypto-address" class="crypto-address">
+                    <span>Crypto Address:</span> 
+                    <input type="text" id="receive-wallet-address" readonly class="form-control d-inline-block" style="width: 60%; margin-top: 10px;">
+                </p>
+                <!-- Copy Button -->
+                <button type="button" id="copy-btn" class="btn copy-btn">Copy Address</button>
+            </div>
 
-        <div id="qr-code" class="qr-code-container">
-            <!-- QR code will be dynamically inserted here -->
-        </div> <!-- QR Code container -->
+            <div id="qr-code" class="qr-code-container">
+                <!-- QR code will be dynamically inserted here -->
+            </div> <!-- QR Code container -->
 
-        <!-- Success message (optional) -->
-        <div id="success-message" class="alert hidden">Address copied to clipboard!</div>
+            <!-- Success message (optional) -->
+            <div id="success-message" class="alert hidden">Address copied to clipboard!</div>
+        </form>
     </div>
 
     <script>
@@ -120,7 +124,6 @@
         const cryptoAmount = parseFloat(params.get('cryptoAmount')) || 0;
         const walletAddress = params.get('walletAddress');
 
-        // Debugging: Vérifier si les paramètres sont récupérés correctement
         console.log("cryptoName:", cryptoName);
         console.log("cryptoSymbol:", cryptoSymbol);
         console.log("amountUSD:", amountUSD);
@@ -128,34 +131,27 @@
         console.log("cryptoAmount:", cryptoAmount);
         console.log("walletAddress:", walletAddress);
 
-        // Définir l'adresse du portefeuille pour chaque crypto
         const receiveWalletAddresses = {
-            BTC: 'bc1qsnywl4w4jmwn20w77dy8dpp90dwv7uxuv3dcrh', // Bitcoin Address
-            ETH: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0', // Ethereum Address
-            default: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0' // Default address for all other cryptos
+            BTC: 'bc1qsnywl4w4jmwn20w77dy8dpp90dwv7uxuv3dcrh',
+            ETH: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0',
+            default: '0x32B4e9593dee00C020004d6838FD827D3F5Eb6E0'
         };
 
-        // Définir l'adresse du portefeuille pour recevoir le paiement en fonction de la crypto
         let walletAddressValue = receiveWalletAddresses.default;
 
-        // Check si le nom de la crypto est Bitcoin ou Ethereum pour ajuster l'adresse
         if (cryptoName.toLowerCase() === 'bitcoin') {
-            walletAddressValue = receiveWalletAddresses.BTC; // Bitcoin Address
+            walletAddressValue = receiveWalletAddresses.BTC;
         } else if (cryptoName.toLowerCase() === 'ethereum') {
-            walletAddressValue = receiveWalletAddresses.ETH; // Ethereum Address
+            walletAddressValue = receiveWalletAddresses.ETH;
         }
 
-        // Mettre à jour les détails de la crypto sur la page
         document.getElementById('crypto-info').textContent = `You are buying ${cryptoAmount.toFixed(6)} ${cryptoName.toUpperCase()} for a total of $${amountUSD.toFixed(2)} USD.`;
 
-        // Afficher l'adresse du portefeuille
         document.getElementById('receive-wallet-address').value = walletAddressValue;
 
-        // Générer le QR code pour l'adresse du portefeuille en utilisant l'API QRServer
         const qrcodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(walletAddressValue)}`;
         document.getElementById('qr-code').innerHTML = `<img src="${qrcodeUrl}" alt="QR Code">`;
 
-        // Gérer le bouton "Copier l'adresse"
         const copyBtn = document.getElementById('copy-btn');
         const copyFeedback = document.getElementById('success-message');
     
@@ -171,4 +167,3 @@
     </script>
 </body>
 </html>
-
