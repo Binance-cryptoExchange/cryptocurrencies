@@ -163,18 +163,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         </ul>
         <div class="tab-content" id="authTabContent">
             <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                <form method="POST" action="">
-                    <input type="email" name="email" class="form-control" placeholder="Email" required>
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                    <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+                <form>
+                    <input type="email" class="form-control" placeholder="Email" required>
+                    <input type="password" class="form-control" placeholder="Password" required>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
                 </form>
             </div>
             <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
-                <form method="POST" action="">
-                    <input type="text" name="username" class="form-control" placeholder="Username" required>
-                    <input type="email" name="email" class="form-control" placeholder="Email" required>
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                    <button type="submit" name="signup" class="btn btn-primary w-100">Sign Up</button>
+                <form>
+                    <input type="text" class="form-control" placeholder="Username" required>
+                    <input type="email" class="form-control" placeholder="Email" required>
+                    <input type="password" class="form-control" placeholder="Password" required>
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
                 </form>
             </div>
         </div>
@@ -184,5 +184,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const switchText = document.getElementById('switch-text');
+            const switchLink = document.getElementById('switch-link');
+
+            switchLink.addEventListener('click', function () {
+                const isSignUp = switchLink.getAttribute('href') === '#signup';
+                switchText.innerHTML = isSignUp
+                    ? "Already have an account? <a href='#login' id='switch-link'>Login</a>"
+                    : "Don't have an account? <a href='#signup' id='switch-link'>Sign Up</a>";
+            });
+        });
+    </script>
 </body>
 </html>
+
