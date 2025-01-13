@@ -1,64 +1,3 @@
-<?php
-include('db.php');  // Inclure le fichier de connexion à la base de données
-
-// Gestion de l'inscription
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Validation simple
-    if (!empty($username) && !empty($email) && !empty($password)) {
-        // Hachage du mot de passe avant l'enregistrement
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Insérer dans la base de données
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $username, $email, $hashedPassword);
-
-        if ($stmt->execute()) {
-            // Rediriger vers index.html après inscription réussie
-            header("Location: index.html");
-            exit();
-        } else {
-            echo "Error: " . $stmt->error;
-        }
-        $stmt->close();
-    }
-}
-
-// Gestion de la connexion
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // Validation simple
-    if (!empty($email) && !empty($password)) {
-        $stmt = $conn->prepare("SELECT id, username, password FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($id, $username, $hashedPassword);
-
-        if ($stmt->num_rows > 0) {
-            $stmt->fetch();
-
-            // Vérification du mot de passe
-            if (password_verify($password, $hashedPassword)) {
-                // Rediriger vers index.html après connexion réussie
-                header("Location: index.html");
-                exit();
-            } else {
-                echo "Incorrect password.";
-            }
-        } else {
-            echo "No user found with this email.";
-        }
-        $stmt->close();
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -199,5 +138,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     </script>
 </body>
 </html>
-
 
