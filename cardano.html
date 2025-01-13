@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy & Sell Litecoin (LTC)</title>
+    <title>Buy & Sell Cardano (ADA)</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
     <style>
@@ -77,18 +77,18 @@
     <header class="header">
         <nav class="navbar navbar-expand-lg navbar-light container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC Logo" width="40" class="me-2">
-                <span>Litecoin (LTC)</span>
+                <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA Logo" width="40" class="me-2">
+                <span>Cardano (ADA)</span>
             </a>
         </nav>
     </header>
 
     <!-- Crypto Info Section -->
     <section class="crypto-info container">
-        <img src="https://cryptologos.cc/logos/litecoin-ltc-logo.png" alt="LTC Logo" width="100">
-        <h2>Litecoin (LTC)</h2>
-        <p>Price: $<span id="ltc-price" class="price-neutral">0.00</span></p>
-        <p>24h Change: <span id="ltc-change" class="price-neutral">0.00%</span></p>
+        <img src="https://cryptologos.cc/logos/cardano-ada-logo.png" alt="ADA Logo" width="100">
+        <h2>Cardano (ADA)</h2>
+        <p>Price: $<span id="ada-price" class="price-neutral">0.00</span></p>
+        <p>24h Change: <span id="ada-change" class="price-neutral">0.00%</span></p>
     </section>
 
     <!-- Form Section -->
@@ -96,10 +96,10 @@
         <h3 class="text-center">Transaction Details</h3>
         <div class="d-flex justify-content-center mb-3">
             <button class="btn-action btn-buy" id="btn-buy">
-                <i class="bi bi-arrow-down-circle me-2"></i>Buy LTC
+                <i class="bi bi-arrow-down-circle me-2"></i>Buy ADA
             </button>
             <button class="btn-action btn-sell" id="btn-sell">
-                <i class="bi bi-arrow-up-circle me-2"></i>Sell LTC
+                <i class="bi bi-arrow-up-circle me-2"></i>Sell ADA
             </button>
         </div>
 
@@ -110,9 +110,9 @@
                 <small class="text-muted">For buying, enter the amount you want to spend in USD.</small>
             </div>
             <div class="mb-3">
-                <label for="ltc-amount" class="form-label">Amount in LTC</label>
-                <input type="number" id="ltc-amount" class="form-control" placeholder="Enter amount in LTC" disabled>
-                <small class="text-muted">For selling, enter the amount you want to sell in LTC.</small>
+                <label for="ada-amount" class="form-label">Amount in ADA</label>
+                <input type="number" id="ada-amount" class="form-control" placeholder="Enter amount in ADA" disabled>
+                <small class="text-muted">For selling, enter the amount you want to sell in ADA.</small>
             </div>
             <div class="mb-3">
                 <label for="calculated-value" class="form-label">Calculated Value</label>
@@ -127,38 +127,38 @@
 
     <script>
         const usdAmount = document.getElementById('usd-amount');
-        const ltcAmount = document.getElementById('ltc-amount');
+        const adaAmount = document.getElementById('ada-amount');
         const calculatedValue = document.getElementById('calculated-value');
         const submitButton = document.getElementById('btn-submit');
         const buyButton = document.getElementById('btn-buy');
         const sellButton = document.getElementById('btn-sell');
-        const ltcPriceElement = document.getElementById('ltc-price');
-        const ltcChangeElement = document.getElementById('ltc-change');
-        let ltcPrice = 0;
+        const adaPriceElement = document.getElementById('ada-price');
+        const adaChangeElement = document.getElementById('ada-change');
+        let adaPrice = 0;
 
-        // Fetch Litecoin data from CoinGecko API (or any other API)
-        async function fetchLTCData() {
+        // Fetch Cardano data from CoinGecko API (or any other API)
+        async function fetchADAData() {
             try {
-                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=litecoin&vs_currencies=usd&include_24hr_change=true');
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd&include_24hr_change=true');
                 const data = await response.json();
-                ltcPrice = data['litecoin'].usd;
-                const change24h = data['litecoin'].usd_24h_change.toFixed(2);
+                adaPrice = data['cardano'].usd;
+                const change24h = data['cardano'].usd_24h_change.toFixed(2);
 
-                ltcPriceElement.textContent = ltcPrice.toFixed(2);
-                ltcChangeElement.textContent = `${change24h}%`;
+                adaPriceElement.textContent = adaPrice.toFixed(2);
+                adaChangeElement.textContent = `${change24h}%`;
 
                 if (change24h > 0) {
-                    ltcPriceElement.className = 'price-up';
-                    ltcChangeElement.className = 'price-up';
+                    adaPriceElement.className = 'price-up';
+                    adaChangeElement.className = 'price-up';
                 } else if (change24h < 0) {
-                    ltcPriceElement.className = 'price-down';
-                    ltcChangeElement.className = 'price-down';
+                    adaPriceElement.className = 'price-down';
+                    adaChangeElement.className = 'price-down';
                 } else {
-                    ltcPriceElement.className = '';
-                    ltcChangeElement.className = '';
+                    adaPriceElement.className = '';
+                    adaChangeElement.className = '';
                 }
             } catch (error) {
-                console.error('Error fetching Litecoin data:', error);
+                console.error('Error fetching Cardano data:', error);
             }
         }
 
@@ -166,18 +166,18 @@
         function switchMode(mode) {
             if (mode === 'buy') {
                 usdAmount.disabled = false;
-                ltcAmount.disabled = true;
-                ltcAmount.value = '';
+                adaAmount.disabled = true;
+                adaAmount.value = '';
                 calculatedValue.value = '';
                 submitButton.disabled = true;
                 usdAmount.focus();
             } else if (mode === 'sell') {
-                ltcAmount.disabled = false;
+                adaAmount.disabled = false;
                 usdAmount.disabled = true;
                 usdAmount.value = '';
                 calculatedValue.value = '';
                 submitButton.disabled = true;
-                ltcAmount.focus();
+                adaAmount.focus();
             }
         }
 
@@ -186,16 +186,16 @@
             if (!usdAmount.disabled && usdAmount.value) {
                 const usdValue = parseFloat(usdAmount.value);
                 if (usdValue > 0) {
-                    calculatedValue.value = `${(usdValue / ltcPrice).toFixed(2)} LTC`;
+                    calculatedValue.value = `${(usdValue / adaPrice).toFixed(2)} ADA`;
                     submitButton.disabled = false;
                 } else {
                     calculatedValue.value = '';
                     submitButton.disabled = true;
                 }
-            } else if (!ltcAmount.disabled && ltcAmount.value) {
-                const ltcValue = parseFloat(ltcAmount.value);
-                if (ltcValue > 0) {
-                    calculatedValue.value = `${(ltcValue * ltcPrice).toFixed(2)} USD`;
+            } else if (!adaAmount.disabled && adaAmount.value) {
+                const adaValue = parseFloat(adaAmount.value);
+                if (adaValue > 0) {
+                    calculatedValue.value = `${(adaValue * adaPrice).toFixed(2)} USD`;
                     submitButton.disabled = false;
                 } else {
                     calculatedValue.value = '';
@@ -210,11 +210,11 @@
         // Function to redirect with transaction data in the URL
         function redirectToPaymentPage(mode) {
             const transactionData = {
-                cryptoName: 'Litecoin (LTC)',
-                cryptoPrice: ltcPrice,
-                cryptoLogo: 'https://cryptologos.cc/logos/litecoin-ltc-logo.png',
+                cryptoName: 'Cardano (ADA)',
+                cryptoPrice: adaPrice,
+                cryptoLogo: 'https://cryptologos.cc/logos/cardano-ada-logo.png',
                 transactionMode: mode,
-                amount: mode === 'buy' ? usdAmount.value : ltcAmount.value
+                amount: mode === 'buy' ? usdAmount.value : adaAmount.value
             };
 
             const queryString = new URLSearchParams(transactionData).toString();
@@ -225,16 +225,16 @@
         buyButton.addEventListener('click', () => switchMode('buy'));
         sellButton.addEventListener('click', () => switchMode('sell'));
         usdAmount.addEventListener('input', calculateValue);
-        ltcAmount.addEventListener('input', calculateValue);
+        adaAmount.addEventListener('input', calculateValue);
         submitButton.addEventListener('click', (e) => {
             e.preventDefault();
             const mode = usdAmount.disabled ? 'sell' : 'buy';
             redirectToPaymentPage(mode);
         });
 
-        // Fetch Litecoin data on page load
-        fetchLTCData();
-        setInterval(fetchLTCData, 30000); // Refresh every 30 seconds
+        // Fetch Cardano data on page load
+        fetchADAData();
+        setInterval(fetchADAData, 30000); // Refresh every 30 seconds
     </script>
 </body>
 </html>
